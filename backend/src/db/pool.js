@@ -2,7 +2,7 @@
 // pg keeps a few open connections and reuses them, which is much
 // faster than opening a new connection for every request.
 const { Pool } = require('pg');
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 
 const isLocal = /localhost|127\.0\.0\.1/.test(process.env.DATABASE_URL || '');
 

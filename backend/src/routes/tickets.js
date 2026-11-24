@@ -39,10 +39,9 @@ router.get('/', async (req, res) => {
     conditions.push(`priority = $${params.length}`);
   }
   if (typeof req.query.q === 'string' && req.query.q.trim()) {
-    // % and _ are wildcards in LIKE. Escape them (and the escape char \)
-    // so searching for "50%" finds the text "50%", not "50 anything".
-    const escaped = req.query.q.trim().slice(0, 200).replace(/[\\%_]/g, '\\$&');
-    params.push(`%${escaped}%`);
+    // % and _ are wildcards in LIKE. likePattern escapes them (and the escape
+    // char \) so searching for "50%" finds the text "50%", not "50 anything".
+    params.push(v.likePattern(req.query.q));
     conditions.push(`(subject ILIKE $${params.length} ESCAPE '\\' OR body ILIKE $${params.length} ESCAPE '\\')`);
   }
 

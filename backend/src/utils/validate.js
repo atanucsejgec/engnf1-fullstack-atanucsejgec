@@ -54,6 +54,14 @@ function password(value) {
   return value;
 }
 
+// An ISO 8601 date-time string like 2026-11-25T10:30:00Z -> Date object
+function isoDate(value, field) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T/.test(value) || Number.isNaN(Date.parse(value))) {
+    throw badRequest(`${field} must be an ISO 8601 date-time (e.g. 2026-01-31T10:00:00Z)`);
+  }
+  return new Date(value);
+}
+
 // Reads ?page=&limit= query values. Invalid values give a 400.
 function pagination(query, defaultLimit = 10, maxLimit = 100) {
   const page = query.page === undefined ? 1 : integer(query.page, 'page', 1, 100000);
@@ -71,4 +79,9 @@ function isValidId(value) {
   return /^\d+$/.test(String(value)) && Number(value) > 0 && Number(value) < 2147483647;
 }
 
-module.exports = { ENUMS, text, oneOf, integer, email, password, pagination, paginated, isValidId };
+// Escapes LIKE wildcards so user text is matched literally
+function likePattern(value) {
+  return `%${value.trim().slice(0, 200).replace(/[\\%_]/g, '\\$&')}%`;
+}
+
+module.exports = { ENUMS, text, oneOf, integer, email, password, isoDate, pagination, paginated, isValidId, likePattern };

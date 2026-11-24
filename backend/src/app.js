@@ -14,6 +14,7 @@ app.get('/api/health', (req, res) => res.json({ ok: true }));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tickets', require('./routes/tickets'));
 app.use('/api/stats', require('./routes/stats'));
+app.use('/api/resources', require('./routes/resources'));
 
 // Unknown /api path
 app.use('/api', (req, res) => {

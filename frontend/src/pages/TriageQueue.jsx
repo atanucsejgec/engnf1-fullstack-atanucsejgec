@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api/client'
+import { useToast } from '../context/ToastContext'
+import { ticketFeed } from '../data/ticketFeed'
 import { useApi } from '../hooks/useApi'
 import { PageHeader } from '../components/Layout'
-import { EmptyState, ErrorState, LoadingState, Pagination } from '../components/ui'
+import { Button, EmptyState, ErrorState, LoadingState, Pagination } from '../components/ui'
 import StatsStrip from '../components/tickets/StatsStrip'
 import FilterBar from '../components/tickets/FilterBar'
 import TicketList from '../components/tickets/TicketList'
@@ -16,6 +18,8 @@ export default function TriageQueue() {
   const [query, setQuery] = useState('') // search text after a short pause
   const [page, setPage] = useState(1)
   const [selectedId, setSelectedId] = useState(null)
+  const [importing, setImporting] = useState(false)
+  const showToast = useToast()
 
   // Wait 300ms after the last keystroke before searching
   useEffect(() => {
@@ -41,12 +45,35 @@ export default function TriageQueue() {
     )
   }
 
+  // Sends the feed to the import endpoint. Running it twice is safe:
+  // existing tickets are updated, agent-chosen categories are kept.
+  async function reimportFeed() {
+    setImporting(true)
+    try {
+      const r = await api.post('/tickets/import', { tickets: ticketFeed })
+      showToast(
+        `Feed imported: ${r.importedCount} new, ${r.updatedCount} updated, ${r.skippedOverrideCount} kept agent category`
+      )
+      tickets.reload()
+      stats.reload()
+    } catch (err) {
+      showToast(`Import failed: ${err.message}`, 'error')
+    } finally {
+      setImporting(false)
+    }
+  }
+
   const list = tickets.data
   return (
     <>
       <PageHeader
         title="Triage queue"
         subtitle="Review auto-sorted tickets, correct the category, and move them along."
+        actions={
+          <Button variant="secondary" onClick={reimportFeed} disabled={importing}>
+            {importing ? 'Importing…' : 'Re-import feed'}
+          </Button>
+        }
       />
 
       <StatsStrip stats={stats.data} />

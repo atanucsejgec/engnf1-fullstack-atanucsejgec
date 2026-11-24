@@ -8,6 +8,9 @@ import TriageQueue from './pages/TriageQueue'
 import Resources from './pages/Resources'
 import ResourceDetail from './pages/ResourceDetail'
 import MyBookings from './pages/MyBookings'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminBookings from './pages/admin/AdminBookings'
+import AdminResources from './pages/admin/AdminResources'
 
 export default function App() {
   return (
@@ -26,6 +29,9 @@ export default function App() {
                 <Route path="/resources/:id" element={<ResourceDetail />} />
                 <Route path="/bookings" element={<MyBookings />} />
                 <Route element={<RequireAdmin />}>
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="/admin/bookings" element={<AdminBookings />} />
+                  <Route path="/admin/resources" element={<AdminResources />} />
                 </Route>
               </Route>
             </Route>

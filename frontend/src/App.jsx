@@ -4,6 +4,7 @@ import { ToastProvider } from './context/ToastContext'
 import { GuestOnly, RequireAdmin, RequireAuth } from './components/RouteGuards'
 import Layout from './components/Layout'
 import AuthPage from './pages/AuthPage'
+import TriageQueue from './pages/TriageQueue'
 
 export default function App() {
   return (
@@ -17,7 +18,7 @@ export default function App() {
             </Route>
             <Route element={<RequireAuth />}>
               <Route element={<Layout />}>
-                <Route path="/" element={<p>Queue coming next</p>} />
+                <Route path="/" element={<TriageQueue />} />
                 <Route element={<RequireAdmin />}>
                 </Route>
               </Route>

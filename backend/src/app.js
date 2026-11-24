@@ -15,6 +15,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tickets', require('./routes/tickets'));
 app.use('/api/stats', require('./routes/stats'));
 app.use('/api/resources', require('./routes/resources'));
+app.use('/api/bookings', require('./routes/bookings'));
 
 // Unknown /api path
 app.use('/api', (req, res) => {

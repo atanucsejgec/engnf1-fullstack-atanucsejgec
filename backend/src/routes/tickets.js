@@ -47,15 +47,23 @@ router.get('/', async (req, res) => {
 
   const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
-  const countResult = await pool.query(`SELECT COUNT(*)::int AS total FROM tickets ${where}`, params);
+  // ONE round trip: COUNT(*) OVER() adds the total number of matching rows
+  // to every returned row, so we don't need a second "SELECT COUNT(*)" query.
   const { rows } = await pool.query(
-    `SELECT * FROM tickets ${where}
+    `SELECT *, COUNT(*) OVER()::int AS full_count FROM tickets ${where}
      ORDER BY created_at DESC, id DESC
      LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
     [...params, limit, offset]
   );
 
-  res.json(v.paginated(rows.map(toTicket), page, limit, countResult.rows[0].total));
+  let total = rows.length ? rows[0].full_count : 0;
+  if (rows.length === 0 && page > 1) {
+    // Asked for a page past the end: no rows means no full_count, so count separately
+    const count = await pool.query(`SELECT COUNT(*)::int AS total FROM tickets ${where}`, params);
+    total = count.rows[0].total;
+  }
+
+  res.json(v.paginated(rows.map(toTicket), page, limit, total));
 });
 
 async function loadTicketWithEvents(id) {

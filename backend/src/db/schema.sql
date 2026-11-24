@@ -91,3 +91,20 @@ BEGIN
       ) WHERE (status IN ('PENDING', 'APPROVED'));
   END IF;
 END $$;
+
+-- ---------------------------------------------------------------------
+-- Performance indexes for GET /api/tickets (see SOLUTION.md part C).
+-- Added AFTER measuring: without them every list request did a full
+-- sequential scan + sort of the tickets table.
+-- ---------------------------------------------------------------------
+-- pg_trgm splits text into 3-letter pieces so ILIKE '%crash%' can use an index
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+-- Default sort of the queue (newest first): rows come out already ordered
+CREATE INDEX IF NOT EXISTS tickets_created_idx ON tickets (created_at DESC, id DESC);
+-- Filter combinations used by the filter bar
+CREATE INDEX IF NOT EXISTS tickets_status_priority_idx ON tickets (status, priority, created_at DESC);
+CREATE INDEX IF NOT EXISTS tickets_category_idx ON tickets (category, created_at DESC);
+-- Free-text search on subject and body
+CREATE INDEX IF NOT EXISTS tickets_subject_trgm_idx ON tickets USING gin (subject gin_trgm_ops);
+CREATE INDEX IF NOT EXISTS tickets_body_trgm_idx ON tickets USING gin (body gin_trgm_ops);

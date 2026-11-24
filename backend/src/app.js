@@ -11,7 +11,7 @@ app.use(express.json({ limit: '2mb' }));
 // Simple health check - useful for Render and for quick testing
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
-// Routes are added here in the next steps
+app.use('/api/auth', require('./routes/auth'));
 
 // Unknown /api path
 app.use('/api', (req, res) => {

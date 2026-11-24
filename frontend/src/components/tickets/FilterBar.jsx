@@ -19,11 +19,11 @@ export default function FilterBar({ filters, search, onFilterChange, onSearchCha
         />
       </div>
       <div className="grid grid-cols-3 gap-2 md:flex">
-        <Select aria-label="Status" placeholder="Any status" options={STATUSES}
+        <Select aria-label="Status" placeholder="Status" options={STATUSES}
           value={filters.status} onChange={(e) => onFilterChange('status', e.target.value)} />
-        <Select aria-label="Category" placeholder="Any category" options={CATEGORIES}
+        <Select aria-label="Category" placeholder="Category" options={CATEGORIES}
           value={filters.category} onChange={(e) => onFilterChange('category', e.target.value)} />
-        <Select aria-label="Priority" placeholder="Any priority" options={PRIORITIES}
+        <Select aria-label="Priority" placeholder="Priority" options={PRIORITIES}
           value={filters.priority} onChange={(e) => onFilterChange('priority', e.target.value)} />
       </div>
       {hasFilters && (

@@ -42,7 +42,7 @@ export function Textarea(props) {
 
 export function Select({ options, placeholder, className = '', ...props }) {
   return (
-    <select className={`h-10 pr-8 ${inputClass} ${className}`} {...props}>
+    <select className={`h-10 pr-7 min-w-0 ${inputClass} ${className}`} {...props}>
       {placeholder !== undefined && <option value="">{placeholder}</option>}
       {options.map((o) => (
         <option key={o} value={o}>{label(o)}</option>

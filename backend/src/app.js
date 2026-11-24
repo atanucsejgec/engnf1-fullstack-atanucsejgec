@@ -12,6 +12,7 @@ app.use(express.json({ limit: '2mb' }));
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/tickets', require('./routes/tickets'));
 
 // Unknown /api path
 app.use('/api', (req, res) => {

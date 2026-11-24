@@ -5,6 +5,7 @@ const { notFound } = require('../utils/errors');
 const { toTicket, toTicketEvent } = require('../utils/mappers');
 const { requireAuth } = require('../middleware/auth');
 const { importTickets } = require('../services/ticketImport');
+const { updateTicket } = require('../services/ticketUpdate');
 
 const router = express.Router();
 router.use(requireAuth); // every ticket route needs a logged-in user
@@ -71,6 +72,18 @@ async function loadTicketWithEvents(id) {
 // GET /api/tickets/:id
 router.get('/:id', async (req, res) => {
   if (!v.isValidId(req.params.id)) throw notFound('Ticket not found');
+  res.json(await loadTicketWithEvents(req.params.id));
+});
+
+// PATCH /api/tickets/:id  - agent changes category / priority / status / assigneeId
+router.patch('/:id', async (req, res) => {
+  if (!v.isValidId(req.params.id)) throw notFound('Ticket not found');
+
+  // The person who made the change: X-Agent header, or the logged-in user's email
+  const header = (req.get('X-Agent') || '').trim();
+  const actor = header ? header.slice(0, 254) : req.user.email;
+
+  await updateTicket(req.params.id, req.body, actor);
   res.json(await loadTicketWithEvents(req.params.id));
 });
 

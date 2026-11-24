@@ -5,6 +5,8 @@ import { GuestOnly, RequireAdmin, RequireAuth } from './components/RouteGuards'
 import Layout from './components/Layout'
 import AuthPage from './pages/AuthPage'
 import TriageQueue from './pages/TriageQueue'
+import Resources from './pages/Resources'
+import ResourceDetail from './pages/ResourceDetail'
 
 export default function App() {
   return (
@@ -19,6 +21,8 @@ export default function App() {
             <Route element={<RequireAuth />}>
               <Route element={<Layout />}>
                 <Route path="/" element={<TriageQueue />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/resources/:id" element={<ResourceDetail />} />
                 <Route element={<RequireAdmin />}>
                 </Route>
               </Route>

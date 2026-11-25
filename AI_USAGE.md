@@ -10,7 +10,7 @@ I worked step by step: the AI proposed and wrote each step, explained what was a
 
 ## Where I verified or overrode the AI
 
-1. **Commit attribution.** The AI tool by default adds a `Co-Authored-By` trailer for itself to commits. Rule Q3 asks for exactly one human contributor and no co-author trailers, so I chose to commit without the trailer and declare AI use in this file instead.
+1. **Commit attribution.** The AI tool by default adds a `Co-Authored-By` trailer for itself to commits. Rule Q3 asks for exactly one human contributor and forbids co-author trailers that name other humans. An AI trailer would have been allowed, but I chose to commit without it and declare all AI use in this file instead, so the history shows one clean author.
 
 2. **Checking the performance claim with evidence.** After the indexes were added, the easy story would have been "the trigram index makes search fast". Before it went into SOLUTION.md, the query plans were checked with `EXPLAIN ANALYZE`. They showed Postgres still uses a **Seq Scan** for `q=crash` on ~2,000 rows, because the table is small. So part C says this honestly: the search gain came from removing the second round trip (`COUNT(*) OVER()`), not from the trigram index.
 

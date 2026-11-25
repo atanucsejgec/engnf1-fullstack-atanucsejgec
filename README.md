@@ -12,9 +12,11 @@ TriageSync is a support triage and resource booking web app.
 
 | What | URL |
 |---|---|
-| Frontend | _to be added after deployment_ |
-| API | _to be added after deployment_ (health check: `/api/health`) |
+| Frontend | https://engnf1-fullstack-atanucsejgec.vercel.app |
+| API | https://engnf1-fullstack-atanucsejgec.onrender.com/api (health check: [`/api/health`](https://engnf1-fullstack-atanucsejgec.onrender.com/api/health)) |
 | Repository | https://github.com/atanucsejgec/engnf1-fullstack-atanucsejgec |
+
+The API runs on Render's free plan, which sleeps after 15 minutes without traffic. The first request after that can take up to a minute while it wakes up; after that it responds normally.
 
 ## 3. Seeded credentials
 

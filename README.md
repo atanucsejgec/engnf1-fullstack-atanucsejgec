@@ -12,7 +12,7 @@ TriageSync is a support triage and resource booking web app.
 
 | What | URL |
 |---|---|
-| Frontend | https://engnf1-fullstack-atanucsejgec.vercel.app |
+| Frontend | https://triagesync.atanu.tech (also https://engnf1-fullstack-atanucsejgec.vercel.app) |
 | API | https://engnf1-fullstack-atanucsejgec.onrender.com/api (health check: [`/api/health`](https://engnf1-fullstack-atanucsejgec.onrender.com/api/health)) |
 | Repository | https://github.com/atanucsejgec/engnf1-fullstack-atanucsejgec |
 

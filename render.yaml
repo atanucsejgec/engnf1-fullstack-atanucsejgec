@@ -4,6 +4,9 @@ services:
   - type: web
     name: triagesync-api
     runtime: node
+    plan: free
+    # same region as the Neon database, so each query is a short round trip
+    region: singapore
     rootDir: backend
     # migrate + seed are both idempotent, so running them on every deploy is safe
     buildCommand: npm ci && npm run migrate && npm run seed

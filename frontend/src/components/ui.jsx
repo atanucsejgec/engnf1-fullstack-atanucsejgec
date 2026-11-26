@@ -29,8 +29,9 @@ export function Field({ label: text, error, hint, children }) {
   )
 }
 
-const inputClass =
-  'w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20'
+const fieldClass =
+  'w-full rounded-lg border border-line bg-surface text-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20'
+const inputClass = `px-3 ${fieldClass}`
 
 export function Input(props) {
   return <input className={`h-10 ${inputClass}`} {...props} />
@@ -40,9 +41,24 @@ export function Textarea(props) {
   return <textarea className={`py-2 ${inputClass}`} rows={3} {...props} />
 }
 
-export function Select({ options, placeholder, className = '', ...props }) {
+// The browser's own dropdown arrow takes ~20px inside the box, which cut off
+// "Category" in the 3-column filter bar on phones. We hide it (appearance-none)
+// and draw a small chevron in the right padding instead.
+const CHEVRON = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%235A6478' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`
+const chevronStyle = {
+  backgroundImage: CHEVRON,
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right 0.5rem center',
+  backgroundSize: '10px 6px',
+}
+
+export function Select({ options, placeholder, className = '', style, ...props }) {
   return (
-    <select className={`h-10 pr-7 min-w-0 ${inputClass} ${className}`} {...props}>
+    <select
+      className={`h-10 min-w-0 appearance-none truncate pl-2.5 pr-5 ${fieldClass} ${className}`}
+      style={{ ...chevronStyle, ...style }}
+      {...props}
+    >
       {placeholder !== undefined && <option value="">{placeholder}</option>}
       {options.map((o) => (
         <option key={o} value={o}>{label(o)}</option>

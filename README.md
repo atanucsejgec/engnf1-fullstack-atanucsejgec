@@ -18,6 +18,30 @@ TriageSync is a support triage and resource booking web app.
 
 The API runs on Render's free plan, which sleeps after 15 minutes without traffic. The first request after that can take up to a minute while it wakes up; after that it responds normally.
 
+### Screenshots
+
+Taken from the live site (`docs/screenshots/`).
+
+| Triage queue | Ticket panel (agent override + history) |
+|---|---|
+| ![Triage queue](docs/screenshots/02-triage-queue.png) | ![Ticket panel](docs/screenshots/03-ticket-panel.png) |
+
+| Resources | Slot grid and booking form |
+|---|---|
+| ![Resources](docs/screenshots/04-resources.png) | ![Slot grid](docs/screenshots/05-booking-slot-grid.png) |
+
+| My bookings | Admin analytics |
+|---|---|
+| ![My bookings](docs/screenshots/06-my-bookings.png) | ![Admin analytics](docs/screenshots/07-admin-analytics.png) |
+
+| Admin booking requests | Admin resources |
+|---|---|
+| ![Admin bookings](docs/screenshots/08-admin-bookings.png) | ![Admin resources](docs/screenshots/09-admin-resources.png) |
+
+| Login | Phone (390 px) |
+|---|---|
+| ![Login](docs/screenshots/01-login.png) | <img src="docs/screenshots/10-mobile-queue.png" alt="Triage queue on a phone" width="260"> |
+
 ## 3. Seeded credentials
 
 | Role | Email | Password |
@@ -62,6 +86,7 @@ The login page also has "Demo accounts" buttons that fill these in.
 │       ├── components/           # layout, UI kit, ticket components, slot grid, booking list
 │       ├── data/ticketFeed.js    # the feed sent by the "Re-import feed" button
 │       └── pages/                # queue, resources, bookings, admin pages
+├── docs/screenshots/            # screenshots of the live app used in this README
 ├── render.yaml                   # Render blueprint for the API
 ├── README.md  SOLUTION.md  AI_USAGE.md
 ```
